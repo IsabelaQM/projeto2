@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+
+    <body>
+
+        <div class="mb-3">
+            <form th:action="@{/contatosParametro}">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" th:name="nome" placeholder="Insira o Nome">
+                <button type="submit" class="btn btn-primary">Pesquisar</button>            
+            </form>
+        </div>
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data de Nascimento</th>
+                <th scope="col">Matrícula</th>
+              </tr>
+            </thead>
+            <tbody>
+               <tr th:each="contato : ${contatos}">
+                    <td th:text="${contato.nome}"></td>
+                    <td th:text="${contato.dataNascimento}"></td>
+                    <td th:text="${contato.matricula}"></td>
+                    <td><a th:href="@{'/editarContato?matricula=' + ${contato.matricula}}">Editar</a></td>
+                    <td><a th:href="@{'/excluirContato?matricula=' + ${contato.matricula}}">Excluir</a></td>
+               </tr>
+            </tbody>
+          </table>
+
+          <form method="POST" action="contatos" th:object="${contato}">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Matrícula</label>
+                <input type="text" th:field="*{matricula}" class="form-control" name="matricula" aria-describedby="matriculaHelp">
+                <div id="matriculaHelp" class="form-text">O seu número de matrícula é único e pessoal.</div>
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Nome</label>
+                <input type="text" class="form-control" th:field="*{nome}" name="nome" placeholder="Insira o Nome">
+            </div>
+            <div class="mb-3">
+              <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+              <input type="date" class="form-control" th:field="*{dataNascimento}" name="dataNascimento" placeholder="XXXX-XX-XX">
+          </div>
+            
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+
+        
+    </body>
+
+</html>
